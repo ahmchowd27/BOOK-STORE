@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-
-import { Button, Checkbox, Label, Select, TextInput, Textarea } from 'flowbite-react';
+import React, { useState } from "react";
+import { Button, Label, Select, TextInput, Textarea } from "flowbite-react";
 
 const UploadBook = () => {
   const bookCategories = [
@@ -25,13 +24,11 @@ const UploadBook = () => {
     "Art and design",
   ];
 
-
   const [selectedBookCategory, setSelectedBookCategory] = useState(
     bookCategories[0]
   );
 
   const handleChangeSelectedValue = (event) => {
-    console.log(event.target.value);
     setSelectedBookCategory(event.target.value);
   };
 
@@ -54,98 +51,86 @@ const UploadBook = () => {
       bookDescription,
       bookPDFURL,
     };
-    // console.log(dataObj)
-    fetch("http://localhost:5000/upload-book", {
-      method: "POST",
 
+    fetch("https://book-store-azew.onrender.com/upload-book", {
+      method: "POST",
       headers: {
         "Content-type": "application/json",
       },
-
       body: JSON.stringify(bookObj),
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
-        alert("Book updated successfully!!!!");
+        alert("Book uploaded successfully!");
         form.reset();
+      })
+      .catch((error) => {
+        console.error("Error uploading book:", error);
+        alert("Failed to upload the book. Please try again.");
       });
   };
 
-
   return (
-    <div className='px-4 my-12'>
-      <h2 className='mb-8 text-3xl font-bold'>Upload A Book!</h2>
-      <form className="flex lg:w-[1180px] flex-col flex-wrap gap-4" onSubmit={handleSubmit}>
-
-        {/* first row */}
-        <div className='flex gap-8'>
-
-          {/* book name */}
-          <div className='lg:w-1/2'>
+    <div className="px-4 my-12">
+      <h2 className="mb-8 text-3xl font-bold">Upload A Book!</h2>
+      <form
+        className="flex lg:w-[1180px] flex-col flex-wrap gap-4"
+        onSubmit={handleSubmit}
+      >
+        {/* First Row */}
+        <div className="flex gap-8">
+          {/* Book Title */}
+          <div className="lg:w-1/2">
             <div className="mb-2 block">
-              <Label
-                htmlFor="bookTitle"
-                value="Book Title"
-              />
+              <Label htmlFor="bookTitle" value="Book Title" />
             </div>
             <TextInput
               id="bookTitle"
               placeholder="Book Name"
               required
               type="text"
-              name='bookTitle'
-              className='w-full'
+              name="bookTitle"
+              className="w-full"
             />
           </div>
 
-          {/* author name */}
-          <div className='lg:w-1/2'>
+          {/* Author Name */}
+          <div className="lg:w-1/2">
             <div className="mb-2 block">
-              <Label
-                htmlFor="authorName"
-                value="Author Name"
-              />
+              <Label htmlFor="authorName" value="Author Name" />
             </div>
             <TextInput
               id="authorName"
               placeholder="Author Name"
               required
               type="text"
-              name='authorName'
-              className='w-full'
+              name="authorName"
+              className="w-full"
             />
           </div>
-
         </div>
 
-        {/* 2nd Row */}
-        <div className='flex gap-8'>
-          {/* book url */}
-          <div className='lg:w-1/2'>
+        {/* Second Row */}
+        <div className="flex gap-8">
+          {/* Book Image URL */}
+          <div className="lg:w-1/2">
             <div className="mb-2 block">
-              <Label
-                htmlFor="imageURL"
-                value="Book Image URL"
-              />
+              <Label htmlFor="imageURL" value="Book Image URL" />
             </div>
             <TextInput
               id="imageURL"
               placeholder="Image URL"
               required
               type="text"
-              name='imageURL'
-              className='w-full'
+              name="imageURL"
+              className="w-full"
             />
           </div>
 
-          {/* book category */}
-          <div className='lg:w-1/2'>
+          {/* Book Category */}
+          <div className="lg:w-1/2">
             <div className="mb-2 block">
-              <Label
-                htmlFor="inputState"
-                value="Book Category"
-              />
+              <Label htmlFor="inputState" value="Book Category" />
             </div>
             <Select
               id="inputState"
@@ -161,56 +146,46 @@ const UploadBook = () => {
               ))}
             </Select>
           </div>
-
         </div>
 
-        {/* full width div for book description */}
+        {/* Full Width Book Description */}
         <div>
           <div className="mb-2 block">
-            <Label
-              htmlFor="bookDescription"
-              value="Book Description"
-            />
+            <Label htmlFor="bookDescription" value="Book Description" />
           </div>
           <Textarea
             id="bookDescription"
             placeholder="Book Description"
             required
             type="text"
-            name='bookDescription'
-            className='w-full'
+            name="bookDescription"
+            className="w-full"
             rows={4}
           />
         </div>
 
-
-        {/* book pdf url */}
+        {/* Book PDF URL */}
         <div>
           <div className="mb-2 block">
-            <Label
-              htmlFor="bookPDFURL"
-              value="Book PDF Link"
-            />
+            <Label htmlFor="bookPDFURL" value="Book PDF Link" />
           </div>
           <TextInput
             id="bookPDFURL"
             placeholder="Paste Book PDF URL here"
             required
             type="text"
-            name='bookPDFURL'
-            className='w-full'
+            name="bookPDFURL"
+            className="w-full"
           />
         </div>
 
-
-        {/* Submit btn */}
-        <Button type="submit" className='mt-5'>
-          Upload book
+        {/* Submit Button */}
+        <Button type="submit" className="mt-5">
+          Upload Book
         </Button>
-
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default UploadBook
+export default UploadBook;
