@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 const app = express();
@@ -8,6 +9,9 @@ const port = process.env.PORT || 5000;
 // Middleware
 app.use(cors()); // Enable CORS for all origins
 app.use(express.json());
+
+// Serve React static files
+app.use(express.static(path.join(__dirname, "dist"))); // Adjust "dist" if needed
 
 // MongoDB URI
 const uri =
@@ -30,23 +34,12 @@ async function run() {
 
     const bookCollections = client.db("BookInventory").collection("Books");
 
-    // Root Route
-    app.get("/", (req, res) => {
-      res.send("Hello World! Backend is running.");
+    // API Routes
+    app.get("/api", (req, res) => {
+      res.send("API is running.");
     });
 
-    // Admin Dashboard Upload Route
-    app.get("/admin/dashboard/upload", (req, res) => {
-      res.send("Admin dashboard upload page is working.");
-    });
-
-    // Admin Dashboard Delete Route
-    app.get("/admin/dashboard/delete", (req, res) => {
-      res.send("Admin dashboard delete page is working.");
-    });
-
-    // Upload Book Route
-    app.post("/upload-book", async (req, res) => {
+    app.post("/api/upload-book", async (req, res) => {
       try {
         const result = await bookCollections.insertOne(req.body);
         res.status(201).send(result);
@@ -56,8 +49,7 @@ async function run() {
       }
     });
 
-    // Get All Books Route
-    app.get("/all-books", async (req, res) => {
+    app.get("/api/all-books", async (req, res) => {
       try {
         const books = await bookCollections.find().toArray();
         res.send(books);
@@ -67,8 +59,7 @@ async function run() {
       }
     });
 
-    // Get Single Book by ID
-    app.get("/book/:id", async (req, res) => {
+    app.get("/api/book/:id", async (req, res) => {
       try {
         const book = await bookCollections.findOne({
           _id: new ObjectId(req.params.id),
@@ -84,8 +75,7 @@ async function run() {
       }
     });
 
-    // Update Book by ID
-    app.patch("/book/:id", async (req, res) => {
+    app.patch("/api/book/:id", async (req, res) => {
       try {
         const result = await bookCollections.updateOne(
           { _id: new ObjectId(req.params.id) },
@@ -99,8 +89,7 @@ async function run() {
       }
     });
 
-    // Delete Book by ID
-    app.delete("/book/:id", async (req, res) => {
+    app.delete("/api/book/:id", async (req, res) => {
       try {
         const result = await bookCollections.deleteOne({
           _id: new ObjectId(req.params.id),
@@ -114,6 +103,11 @@ async function run() {
         console.error("Error deleting book:", error);
         res.status(500).send({ error: "Failed to delete book." });
       }
+    });
+
+    // Fallback route for React SPA
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(__dirname, "dist", "index.html"));
     });
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
