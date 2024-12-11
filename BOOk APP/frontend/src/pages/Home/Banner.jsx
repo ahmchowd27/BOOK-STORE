@@ -9,7 +9,7 @@ export const Banner = () => {
   const [error, setError] = useState("");
 
   // Render Backend URL
-  const backendURL = "https://book-store-azew.onrender.com";
+  const backendURL = "https://book-store-6gpl.onrender.com";
 
   const handleSearch = async () => {
     try {

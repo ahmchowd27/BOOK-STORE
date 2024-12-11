@@ -8,7 +8,7 @@ const ManageBooks = () => {
 
   // Fetch all books from the backend
   useEffect(() => {
-    fetch(`https://book-store-azew.onrender.com/all-books`)
+    fetch(`https://book-store-6gpl.onrender.com`)
       .then((res) => res.json())
       .then((data) => {
         setAllBooks(data);
@@ -20,7 +20,7 @@ const ManageBooks = () => {
 
   // Delete a book
   const handleDelete = (id) => {
-    fetch(`https://book-store-azew.onrender.com/book/${id}`, {
+    fetch(`https://book-store-6gpl.onrender.com/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

@@ -6,7 +6,7 @@ const OtherBooks = () => {
 
   useEffect(() => {
     // Replace "YOUR_DEPLOYED_BACKEND_URL" with your actual backend URL
-    const backendUrl = "https://book-store-azew.onrender.com";
+    const backendUrl = "https://book-store-6gpl.onrender.com";
     fetch(`${backendUrl}/all-books`)
       .then((res) => res.json())
       .then((data) => setBooks(data.slice(5, 12)))

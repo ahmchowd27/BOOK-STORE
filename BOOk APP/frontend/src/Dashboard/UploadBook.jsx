@@ -52,7 +52,7 @@ const UploadBook = () => {
       bookPDFURL,
     };
 
-    fetch("https://book-store-azew.onrender.com/upload-book", {
+    fetch("https://book-store-6gpl.onrender.com", {
       method: "POST",
       headers: {
         "Content-type": "application/json",

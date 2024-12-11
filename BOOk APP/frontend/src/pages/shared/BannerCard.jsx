@@ -16,7 +16,7 @@ function BannerCard() {
   const [randomBooks, setRandomBooks] = useState([]);
 
   // Replace with your backend API URL
-  const backendUrl = "https://book-store-azew.onrender.com";
+  const backendUrl = "https://book-store-6gpl.onrender.com";
 
   // Fetch book data from backend API and select random 5
   useEffect(() => {
