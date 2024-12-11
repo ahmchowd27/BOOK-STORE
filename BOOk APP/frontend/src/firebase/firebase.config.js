@@ -1,19 +1,22 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyCIQl0weHWkyX7FNmGNCTElUYL9aL0HPMA",
-    authDomain: "online-book-store-78516.firebaseapp.com",
-    projectId: "online-book-store-78516",
-    storageBucket: "online-book-store-78516.appspot.com",
-    messagingSenderId: "282181520275",
-    appId: "1:282181520275:web:0ce28538cea0433ea83666"
-  };
+  apiKey: "AIzaSyD6-_LjHujuyFyRbIvqIAXbs2C5iyt6p2A",
+  authDomain: "mern-book-store-8d0f6.firebaseapp.com",
+  projectId: "mern-book-store-8d0f6",
+  storageBucket: "mern-book-store-8d0f6.firebasestorage.app",
+  messagingSenderId: "664709286242",
+  appId: "1:664709286242:web:76fc5e00412bfc9b45843b",
+  measurementId: "G-XWLQMDZZWD",
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+// Export the app as the default export
 export default app;

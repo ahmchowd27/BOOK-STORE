@@ -34,13 +34,12 @@ export default function Shop() {
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
         {books.map((book) => (
           <Card key={book._id}>
-            <img src={book.imageURL} alt="" className="h-96" />
+            <img src={book.imageUrl} alt={book.bookTitle} className="h-96" />
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              <p>{book.bookTitle}</p>
+              {book.bookTitle}
             </h5>
             <p className="font-normal text-gray-700 dark:text-gray-400">
-              Here are the biggest enterprise technology acquisitions of 2021 so
-              far, in reverse chronological order....
+              {book.description}
             </p>
             <button className="px-4 py-2 bg-blue-600 text-white rounded">
               Buy Now
