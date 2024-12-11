@@ -1,49 +1,49 @@
 const express = require("express");
-const app = express();
 const cors = require("cors");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+
+const app = express();
 const port = process.env.PORT || 5000;
 
-// middlewear
+// Middleware
 app.use(cors());
 app.use(express.json());
 
+// Default Route
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-// mongodb confiq here
-const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+// MongoDB Configuration
 const uri =
   "mongodb+srv://ahmedssofa:fPPUY7JHJc1uQKYk@cluster0.oyxdq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
   },
+  tls: true,
+  tlsAllowInvalidCertificates: true, // Allow invalid TLS certificates
 });
 
 async function run() {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    // Send a ping to confirm a successful connection
     const bookCollections = client.db("BookInventory").collection("Books");
 
-    // insert a book to db: Post Method
+    // Insert a Book
     app.post("/upload-book", async (req, res) => {
       const data = req.body;
-      // console.log(data);
       const result = await bookCollections.insertOne(data);
       res.send(result);
     });
-    app.get("/search-book", async (req, res) => {
-      const searchQuery = req.query.title.trim(); // Ensure there are no extra spaces
-      console.log("Search query:", searchQuery); // Log the query for debugging
 
+    // Search Book by Title
+    app.get("/search-book", async (req, res) => {
+      const searchQuery = req.query.title.trim();
       try {
-        // Perform a case-insensitive search using a regular expression
         const result = await bookCollections
           .find({ title: { $regex: searchQuery, $options: "i" } })
           .toArray();
@@ -62,23 +62,14 @@ async function run() {
       }
     });
 
-    // // get all books from db
-    // app.get("/all-books", async (req, res) => {
-    //     const books = bookCollections.find();
-    //     const result = await books.toArray();
-    //     res.send(result)
-    // })
-
-    // get all books & find by a category from db
+    // Get All Books
     app.get("/all-books", async (req, res) => {
-      let query = {};
-      if (req.query?.category) {
-        query = { category: req.query.category };
-      }
+      const query = req.query?.category ? { category: req.query.category } : {};
       const result = await bookCollections.find(query).toArray();
       res.send(result);
     });
 
+    // Get Top Books
     app.get("/top-books", async (req, res) => {
       try {
         const result = await bookCollections
@@ -86,25 +77,19 @@ async function run() {
           .toArray();
         res.send(result);
       } catch (error) {
-        console.error("Error fetching random books: ", error);
+        console.error("Error fetching random books:", error);
         res.status(500).send("Internal Server Error");
       }
     });
 
-    // update a books method
+    // Update a Book
     app.patch("/book/:id", async (req, res) => {
       const id = req.params.id;
-      // console.log(id);
       const updateBookData = req.body;
       const filter = { _id: new ObjectId(id) };
-      const updatedDoc = {
-        $set: {
-          ...updateBookData,
-        },
-      };
+      const updatedDoc = { $set: { ...updateBookData } };
       const options = { upsert: true };
 
-      // update now
       const result = await bookCollections.updateOne(
         filter,
         updatedDoc,
@@ -113,7 +98,7 @@ async function run() {
       res.send(result);
     });
 
-    // delete a item from db
+    // Delete a Book
     app.delete("/book/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
@@ -121,7 +106,7 @@ async function run() {
       res.send(result);
     });
 
-    // get a single book data
+    // Get a Single Book by ID
     app.get("/book/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
@@ -129,17 +114,15 @@ async function run() {
       res.send(result);
     });
 
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
-  } finally {
-    // Ensures that the client will close when you finish/error
-    // await client.close();
+    console.log("Connected to MongoDB successfully!");
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error);
   }
 }
+
 run().catch(console.dir);
 
+// Start the Server
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Server is running on port ${port}`);
 });

@@ -8,28 +8,31 @@ export const Banner = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [error, setError] = useState("");
 
+  // Render Backend URL
+  const backendURL = "https://book-store-azew.onrender.com";
+
   const handleSearch = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/search-book`, {
+      const response = await axios.get(`${backendURL}/search-book`, {
         params: { title: searchQuery },
       });
       setSearchResults(response.data);
       setError("");
     } catch (err) {
       setSearchResults([]);
-      setError("No books found or an error occurred");
+      setError("No books found or an error occurred. Please try again.");
     }
   };
 
   return (
     <div className="bg-teal-100 px-4 lg:px-24 flex items-center">
       <div className="flex flex-col md:flex-row-reverse justify-between items-center gap-12 py-40">
-        {/* right side */}
+        {/* Right side */}
         <div className="md:w-1/2 h-full">
           <BannerCard />
         </div>
 
-        {/* left side */}
+        {/* Left side */}
         <div className="md:w-1/2 space-y-8 bg-teal-100">
           <h1 className="lg:text-6xl text-5xl font-bold text-black mb-5 lg:leading-tight leading-snug">
             Buy and sell your books{" "}
@@ -38,13 +41,13 @@ export const Banner = () => {
           <p>
             Find and read more books you'll love, and keep track of the books
             you want to read. Be part of the world's largest community of book
-            lovers on Goodreads.
+            lovers.
           </p>
           <div>
             <input
               type="search"
               placeholder="Search a book by title"
-              className="py-2 px-2 rounded-s-sm"
+              className="py-2 px-2 rounded-s-sm border border-gray-300"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
