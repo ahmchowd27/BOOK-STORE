@@ -35,6 +35,16 @@ async function run() {
       res.send("Hello World! Backend is running.");
     });
 
+    // Admin Dashboard Upload Route
+    app.get("/admin/dashboard/upload", (req, res) => {
+      res.send("Admin dashboard upload page is working.");
+    });
+
+    // Admin Dashboard Delete Route
+    app.get("/admin/dashboard/delete", (req, res) => {
+      res.send("Admin dashboard delete page is working.");
+    });
+
     // Upload Book Route
     app.post("/upload-book", async (req, res) => {
       try {
