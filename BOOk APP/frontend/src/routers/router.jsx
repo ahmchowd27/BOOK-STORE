@@ -34,7 +34,7 @@ const router = createBrowserRouter([
         path: "/book/:id",
         element: <SignleBook />,
         loader: ({ params }) =>
-          fetch(`https://book-store-azew.onrender.com/book/${params.id}`), // Updated API URL
+          fetch(`https://book-store-6gpl.onrender.com/book/${params.id}`), // Updated API URL
       },
       {
         path: "/about",
@@ -70,7 +70,7 @@ const router = createBrowserRouter([
         path: "/admin/dashboard/edit-books/:id",
         element: <EditBooks />,
         loader: ({ params }) =>
-          fetch(`https://book-store-azew.onrender.com/book/${params.id}`), // Updated API URL
+          fetch(`https://book-store-6gpl.onrender.com/book/${params.id}`), // Updated API URL
       },
     ],
   },
